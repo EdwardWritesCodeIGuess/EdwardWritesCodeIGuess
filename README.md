@@ -1,5 +1,10 @@
 ## Hi there 👋
 
+This is a Repo to keep track of stuff I've done.
+Each file should probably be its own project
+
+
+
 <!--
 **EdwardWritesCodeIGuess/EdwardWritesCodeIGuess** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
