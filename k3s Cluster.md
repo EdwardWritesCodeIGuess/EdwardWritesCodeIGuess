@@ -1,4 +1,4 @@
-9/23/2026
+**9/23/2026**
 
 I used a two raspberry pi 4b's to cluster them together. 
 
@@ -6,4 +6,7 @@ My original goal was to try and run a small Kubernetes cluster to run a small ai
 
 
 
-Link to k3s project is [Here]([url](https://github.com/EdwardWritesCodeIGuess/K3s.git))
+Link to k3s project is here
+```
+https://github.com/EdwardWritesCodeIGuess/K3s.git
+```
