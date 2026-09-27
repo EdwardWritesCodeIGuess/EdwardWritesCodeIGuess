@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Edward — Network Engineering Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── TOKENS ── */
+  :root {
+    --base:      #0C1523;
+    --surface:   #132030;
+    --raised:    #1B2E42;
+    --border:    #1E3348;
+    --blue:      #1B9BFF;
+    --green:     #00D68F;
+    --amber:     #F5A623;
+    --text:      #C8DBEE;
+    --sub:       #5E7A94;
+    --white:     #E8F0F8;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    background: var(--base);
+    color: var(--text);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  img { max-width: 100%; }
+
+  /* ── TYPE ── */
+  h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; color: var(--white); }
+  h2 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; color: var(--white); }
+  h3 { font-size: 0.92rem; font-weight: 600; letter-spacing: -0.01em; color: var(--blue); margin-bottom: 0.5rem; }
+  p  { margin-bottom: 1rem; }
+  p:last-child { margin-bottom: 0; }
+  ul { padding-left: 1.3rem; }
+  li { margin-bottom: 0.25rem; font-size: 0.9rem; }
+
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  /* ── HEADER / TERMINAL ── */
+  .terminal-header {
+    padding: 3.5rem 2rem 3rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .terminal-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg,
+        transparent,
+        transparent 40px,
+        rgba(27,155,255,0.025) 40px,
+        rgba(27,155,255,0.025) 41px
+      );
+    pointer-events: none;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.red    { background: #FF5F57; }
+  .dot.yellow { background: #FFBD2E; }
+  .dot.green  { background: #28C840; }
+
+  .terminal-bar .mono {
+    color: var(--sub);
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+  }
+
+  .prompt-block {
+    max-width: 680px;
+  }
+
+  .prompt-line {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--sub);
+    margin-bottom: 0.3rem;
+  }
+
+  .prompt-line .cmd { color: var(--green); }
+  .prompt-line .out { color: var(--text); }
+  .prompt-line .flag { color: var(--blue); }
+
+  .header-name {
+    margin-top: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .career-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--green);
+    margin-bottom: 0.75rem;
+  }
+  .career-label::before { content: '⬤  '; }
+
+  .contact-strip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--sub);
+  }
+
+  .contact-strip span { margin-right: 1.5rem; }
+
+  .meta-note {
+    font-size: 0.75rem;
+    color: var(--sub);
+    margin-top: 0.75rem;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--base);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  nav a {
+    color: var(--sub);
+    text-decoration: none;
+    padding: 0.8rem 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    padding-left: 0.9rem;
+    border-left: 3px solid var(--blue);
+  }
+
+  .section-heading.green-bar { border-left-color: var(--green); }
+  .section-heading.amber-bar { border-left-color: var(--amber); }
+
+  .pts-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--blue);
+    border: 1px solid rgba(27,155,255,0.3);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* ── JOB CARDS ── */
+  .job-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 0;
+  }
+  @media (max-width: 640px) { .job-grid { grid-template-columns: 1fr; } }
+
+  .job-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .job-header {
+    background: var(--raised);
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .company-name {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--sub);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.2rem;
+  }
+
+  .job-title-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .salary-pill {
+    display: inline-block;
+    background: rgba(0,214,143,0.1);
+    color: var(--green);
+    border: 1px solid rgba(0,214,143,0.25);
+    border-radius: 3px;
+    padding: 0.1rem 0.45rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    margin-top: 0.4rem;
+  }
+
+  .job-body { padding: 1.1rem 1.2rem; }
+
+  .spec-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 0.65rem;
+    font-size: 0.87rem;
+    align-items: flex-start;
+  }
+
+  .spec-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.67rem;
+    color: var(--sub);
+    min-width: 72px;
+    padding-top: 0.1rem;
+    flex-shrink: 0;
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(27,155,255,0.08);
+    color: var(--blue);
+    border: 1px solid rgba(27,155,255,0.2);
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.7rem;
+    margin: 0.1rem 0.08rem;
+  }
+
+  .tag.g {
+    background: rgba(0,214,143,0.08);
+    color: var(--green);
+    border-color: rgba(0,214,143,0.2);
+  }
+
+  .surprise {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    background: rgba(245,166,35,0.07);
+    border-left: 2px solid var(--amber);
+    border-radius: 0 4px 4px 0;
+    font-size: 0.82rem;
+  }
+
+  .surprise-label {
+    font-size: 0.67rem;
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 0.2rem;
+  }
+
+  /* ── BIO ── */
+  .bio-card {
+    display: flex;
+    gap: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 500px) { .bio-card { flex-direction: column; } }
+
+  .bio-logo {
+    flex-shrink: 0;
+  }
+
+  .bio-logo svg { display: block; }
+
+  .bio-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.15rem;
+  }
+
+  .bio-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.73rem;
+    color: var(--green);
+    margin-bottom: 0.75rem;
+  }
+  .bio-role::before { content: '⬤  '; }
+
+  /* ── PORTFOLIO GRID ── */
+  .pf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  @media (max-width: 640px) { .pf-grid { grid-template-columns: 1fr; } }
+
+  .pf-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .pf-thumb {
+    height: 100px;
+    background: var(--raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.6rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .pf-thumb::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--blue), transparent);
+  }
+
+  .pf-body { padding: 1.1rem 1.2rem; }
+  .pf-body h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .pf-desc { font-size: 0.82rem; color: var(--sub); margin-bottom: 0.75rem; }
+
+  .pf-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .process-item {
+    border-left: 2px solid var(--border);
+    padding: 0.4rem 0.7rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--sub);
+    border-radius: 0 3px 3px 0;
+    background: var(--raised);
+  }
+
+  /* ── SCRIPT BOX ── */
+  .script-note {
+    font-size: 0.8rem;
+    color: var(--sub);
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .script-box {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem 1.75rem;
+    font-size: 0.92rem;
+    line-height: 1.9;
+    white-space: pre-wrap;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .beat { color: var(--sub); font-style: italic; }
+
+  /* ── RESUME ── */
+  .resume-wrap {
+    background: #FDFCFB;
+    color: #1a1a24;
+    border-radius: 8px;
+    padding: 2.5rem 2.75rem;
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  .resume-wrap * { color: #1a1a24; }
+
+  .r-name {
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .r-subtitle {
+    font-size: 0.88rem;
+    color: #0055CC !important;
+    margin-top: 0.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .r-contact {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: #666 !important;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #0055CC;
+    margin-bottom: 1.1rem;
+  }
+
+  .r-section { margin-bottom: 1rem; }
+
+  .r-sec-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #0055CC !important;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .r-entry { margin-bottom: 0.6rem; }
+
+  .r-entry-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .r-entry-title { font-weight: 700; font-size: 0.85rem; }
+
+  .r-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.71rem;
+    color: #666 !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .r-sub {
+    font-size: 0.78rem;
+    color: #555 !important;
+    font-style: italic;
+  }
+
+  .r-bullets {
+    padding-left: 1.1rem;
+    margin-top: 0.2rem;
+  }
+
+  .r-bullets li {
+    font-size: 0.78rem;
+    color: #333 !important;
+    margin-bottom: 0.1rem;
+  }
+
+  .r-skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .r-tag {
+    display: inline-block;
+    background: #EEF3FF;
+    color: #0055CC !important;
+    border: 1px solid #C5D5FF;
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.71rem;
+    font-weight: 500;
+  }
+
+  /* killswitch */
+  .ks-entry {
+    background: #FFF5F5;
+    border: 1px solid #FFCCCC;
+    border-radius: 4px;
+    padding: 0.5rem 0.7rem;
+  }
+
+  .ks-title {
+    font-weight: 700;
+    font-size: 0.83rem;
+    color: #CC0000 !important;
+  }
+
+  .ks-body {
+    font-size: 0.76rem;
+    color: #884444 !important;
+    margin-top: 0.15rem;
+  }
+
+  /* ── REFLECTION ── */
+  .reflection p {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    margin-bottom: 1.1rem;
+    max-width: 70ch;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2.5rem;
+    color: var(--sub);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="terminal-header">
+  <div class="terminal-bar">
+    <div class="dot red"></div>
+    <div class="dot yellow"></div>
+    <div class="dot green"></div>
+    <span class="mono">edward@home-lab ~ — portfolio.html</span>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-line"><span class="cmd">$ whoami</span></div>
+    <div class="prompt-line"><span class="out">edward — aspiring data center network engineer, cary nc</span></div>
+    <div class="prompt-line" style="margin-top:0.5rem;"><span class="cmd">$ uptime</span></div>
+    <div class="prompt-line"><span class="out">home lab <span class="flag">↑</span> 11 months  │  proxmox nodes online: <span class="flag">3</span>  │  pi-hole: <span class="flag">active</span></span></div>
+  </div>
+
+  <h1 class="header-name">Edward</h1>
+  <div class="career-label">Data Center Network Engineer (Aspiring)</div>
+
+  <div class="contact-strip">
+    <span>edward@email.com</span>
+    <span>github.com/edward-netlab</span>
+    <span>linkedin.com/in/edward</span>
+  </div>
+
+  <div class="meta-note">
+    Unit 1 Honors Employment Portfolio &nbsp;·&nbsp; 348.McDaniel.CD305X0Y.1.2027 &nbsp;·&nbsp; 10/1/2026 &nbsp;·&nbsp; 120 Points
+  </div>
+</header>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#part1">Career Research</a>
+  <a href="#part2">Identity</a>
+  <a href="#part3">Portfolio</a>
+  <a href="#part5">Video Pitch</a>
+  <a href="#part6">Resume</a>
+  <a href="#reflection">Reflection</a>
+</nav>
+
+
+<!-- ═══ PART 1: CAREER RESEARCH ═══ -->
+<div class="section" id="part1">
+  <div class="section-heading">
+    <h2>Career Research — Data Center Network Engineer</h2>
+    <div class="pts-badge">20 pts</div>
+  </div>
+
+  <p style="font-size:0.9rem; margin-bottom:1.5rem;">
+    A <strong>Data Center Network Engineer</strong> designs, builds, and maintains the physical and logical network infrastructure inside large-scale facilities — routers, switches, fiber runs, and the software that connects them. These are the people who keep cloud services, streaming platforms, and enterprise applications running around the clock.
+  </p>
+
+  <div class="job-grid">
+
+    <!-- JOB 1 -->
+    <div class="job-card">
+      <div class="job-header">
+        <div class="company-name">Cloudflare, Inc.</div>
+        <div class="job-title-text">Network Engineer II</div>
+        <div class="salary-pill">$115,000 – $160,000</div>
+      </div>
+      <div class="job-body">
+        <div class="spec-row">
+          <div class="spec-label">education</div>
+          <div>BS in CS, Network Engineering, or equivalent. CCNA required, CCNP preferred.</div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label">tech skills</div>
+          <div>
+            <span class="tag">BGP</span>
+            <span class="tag">OSPF</span>
+            <span class="tag">IS-IS</span>
+            <span class="tag">IPv6</span>
+            <span class="tag">MPLS</span>
+            <span class="tag">ECMP</span>
+            <span class="tag">Network Automation</span>
+          </div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label">tools</div>
+          <div>
+            <span class="tag g">Linux</span>
+            <span class="tag g">Python</span>
+            <span class="tag g">Ansible</span>
+            <span class="tag g">Wireshark</span>
+            <span class="tag g">Juniper Junos</span>
+            <span class="tag g">BIRD/FRR</span>
+          </div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label">soft skills</div>
+          <div>Technical documentation, on-call rotation availability, cross-team communication</div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label">portfolio</div>
+          <div>GitHub with automation scripts, network lab docs, open-source contributions</div>
+        </div>
+        <div class="surprise">
+          <div class="surprise-label">What surprised me</div>
+          Cloudflare builds its own internal BGP routing software and expects engineers to contribute code to it. They're not just configuring boxes — they're writing the software that controls the network.
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB 2 -->
+    <div class="job-card">
+      <div class="job-header">
+        <div class="company-name">Equinix (Data Center Colocation)</div>
+        <div class="job-title-text">Data Center Infrastructure Engineer</div>
+        <div class="salary-pill">$58,000 – $92,000</div>
+      </div>
+      <div class="job-body">
+        <div class="spec-row">
+          <div class="spec-label">education</div>
+          <div>Associate's or BS in IT/Networking. CCNA required; on-the-job training available for entry-level.</div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label">tech skills</div>
+          <div>
+            <span class="tag">Fiber Optic Cabling</span>
+            <span class="tag">Rack &amp; Stack</span>
+            <span class="tag">Power Distribution</span>
+            <span class="tag">Cooling Systems</span>
+            <span class="tag">Structured Cabling</span>
+          </div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label">tools</div>
+          <div>
+            <span class="tag g">Cisco IOS</span>
+            <span class="tag g">DCIM Software</span>
+            <span class="tag g">Nagios / Zabbix</span>
+            <span class="tag g">ServiceNow</span>
+          </div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label">soft skills</div>
+          <div>Precision and attention to detail, customer-facing communication, ability to perform physical work</div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label">portfolio</div>
+          <div>Photos of rack builds, network diagrams, cabling documentation, monitoring dashboards</div>
+        </div>
+        <div class="surprise">
+          <div class="surprise-label">What surprised me</div>
+          Way more physical than I expected. Engineers regularly lift 50+ lb servers, run fiber through ceiling conduits, and pull 2 AM overnight shifts. It's as much a trade skill as an IT skill, and I respect that.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end job-grid -->
+</div>
+
+
+<!-- ═══ PART 2: IDENTITY ═══ -->
+<div class="section" id="part2">
+  <div class="section-heading green-bar">
+    <h2>Professional Identity</h2>
+    <div class="pts-badge">10 pts</div>
+  </div>
+
+  <div class="bio-card">
+    <div class="bio-logo">
+      <svg width="76" height="76" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="76" height="76" rx="12" fill="#132030"/>
+        <!-- Server rack units -->
+        <rect x="14" y="14" width="48" height="10" rx="2" fill="#1B9BFF" opacity="0.9"/>
+        <rect x="14" y="27" width="48" height="10" rx="2" fill="#1B9BFF" opacity="0.65"/>
+        <rect x="14" y="40" width="48" height="10" rx="2" fill="#1B9BFF" opacity="0.4"/>
+        <!-- Status LEDs on each unit -->
+        <circle cx="56" cy="19" r="2.5" fill="#00D68F"/>
+        <circle cx="56" cy="32" r="2.5" fill="#00D68F"/>
+        <circle cx="56" cy="45" r="2.5" fill="#F5A623"/>
+        <!-- Network lines below -->
+        <line x1="38" y1="53" x2="22" y2="62" stroke="#1B9BFF" stroke-width="1.5"/>
+        <line x1="38" y1="53" x2="38" y2="62" stroke="#1B9BFF" stroke-width="1.5"/>
+        <line x1="38" y1="53" x2="54" y2="62" stroke="#1B9BFF" stroke-width="1.5"/>
+        <circle cx="22" cy="63" r="3" fill="#1B9BFF"/>
+        <circle cx="38" cy="63" r="3" fill="#1B9BFF"/>
+        <circle cx="54" cy="63" r="3" fill="#00D68F"/>
+      </svg>
+    </div>
+    <div>
+      <div class="bio-name">Edward</div>
+      <div class="bio-role">Aspiring Data Center Network Engineer &nbsp;·&nbsp; Cary / Greensboro, NC</div>
+      <p style="font-size:0.9rem; line-height:1.75; margin-bottom:0;">
+        I'm a self-taught tech builder from North Carolina with a passion for networked infrastructure and self-hosted systems. I got my start running a home lab — configuring Proxmox virtualization clusters, deploying Pi-hole for network-wide DNS filtering, hosting game servers, and wiring up smart home automation. I'm comfortable in Linux environments, designing subnets and VLANs, and writing scripts to automate repetitive work. My goal is a career as a Data Center Network Engineer, maintaining and scaling the physical and logical backbone that keeps cloud services online. Outside of projects, I document every build so the next person — or future me — can actually understand what I built. I believe reliable infrastructure is invisible infrastructure, and I want to be the person who keeps it that way.
+      </p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:0;">Logo Concept</h3>
+  <p style="font-size:0.85rem; color:var(--sub);">Three server rack units (representing compute layers) connected to distributed network nodes below. Blue LEDs indicate online/healthy; amber indicates maintenance. The design communicates infrastructure that serves many endpoints — which is exactly what a network engineer does.</p>
+</div>
+
+
+<!-- ═══ PARTS 3 & 4: PORTFOLIO ═══ -->
+<div class="section" id="part3">
+  <div class="section-heading amber-bar">
+    <h2>Portfolio Pieces + Presentation</h2>
+    <div class="pts-badge">40 + 20 pts</div>
+  </div>
+
+  <div class="pf-grid">
+
+    <!-- PIECE 1 -->
+    <div class="pf-card">
+      <div class="pf-thumb">🏗️</div>
+      <div class="pf-body">
+        <h3>Home Lab Network Infrastructure</h3>
+        <div class="pf-desc">Multi-VLAN segmented home network with inter-VLAN routing, firewall rules, and dedicated management, IoT, server, and trusted LAN zones.</div>
+
+        <div class="spec-row" style="margin-bottom:0.5rem;">
+          <div class="spec-label">software</div>
+          <div><span class="tag">Proxmox VE</span> <span class="tag">pfSense</span> <span class="tag">Linux</span></div>
+        </div>
+        <div class="spec-row" style="margin-bottom:0.5rem;">
+          <div class="spec-label">my role</div>
+          <div style="font-size:0.82rem;">Sole designer and administrator — planned, built, and documented the entire environment from scratch.</div>
+        </div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Skills Demonstrated</h3>
+        <div class="pf-skills">
+          <span class="tag">Subnetting &amp; VLAN design</span>
+          <span class="tag">Firewall rule management</span>
+          <span class="tag">Virtualization</span>
+          <span class="tag">Technical documentation</span>
+        </div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Process Evidence</h3>
+        <div class="process-item">IP address plan — RFC 1918 space divided into 4 subnets across management, IoT, server, and trusted VLAN zones</div>
+        <div class="process-item">Iterative diagrams: v1 flat single-subnet → v2 VLAN-segmented with inter-VLAN routing and explicit deny rules</div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Final Product</h3>
+        <div class="process-item" style="border-left-color:var(--green);">Live VLAN-segmented network with 4 active zones, pfSense routing between them, and zero unintended cross-zone traffic for 11+ months of operation.</div>
+      </div>
+    </div>
+
+    <!-- PIECE 2 -->
+    <div class="pf-card">
+      <div class="pf-thumb">🛡️</div>
+      <div class="pf-body">
+        <h3>Pi-hole DNS Filtering + Network Security</h3>
+        <div class="pf-desc">Network-wide DNS sinkhole blocking ads, trackers, and malicious domains across all connected devices via a Raspberry Pi running Pi-hole + Unbound.</div>
+
+        <div class="spec-row" style="margin-bottom:0.5rem;">
+          <div class="spec-label">software</div>
+          <div><span class="tag">Pi-hole</span> <span class="tag">Unbound</span> <span class="tag">Raspberry Pi OS</span></div>
+        </div>
+        <div class="spec-row" style="margin-bottom:0.5rem;">
+          <div class="spec-label">my role</div>
+          <div style="font-size:0.82rem;">Deployed Pi-hole on a Raspberry Pi, added recursive DNS via Unbound, pushed it to all clients via DHCP option 6.</div>
+        </div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Skills Demonstrated</h3>
+        <div class="pf-skills">
+          <span class="tag">DNS architecture</span>
+          <span class="tag">Network security</span>
+          <span class="tag">Linux administration</span>
+          <span class="tag">DHCP configuration</span>
+          <span class="tag">Blocklist management</span>
+        </div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Process Evidence</h3>
+        <div class="process-item">Before/after screenshots: DNS query logs before Pi-hole (direct ISP resolver) vs. after (Pi-hole showing ~23% of queries blocked)</div>
+        <div class="process-item">Custom allowlist documentation — tracking and fixing false positives that blocked legitimate services like Windows Update and game APIs</div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Final Product</h3>
+        <div class="process-item" style="border-left-color:var(--green);">Pi-hole blocking 23% of all DNS queries across 15+ devices; zero ads or tracker requests reaching the network.</div>
+      </div>
+    </div>
+
+    <!-- PIECE 3 -->
+    <div class="pf-card">
+      <div class="pf-thumb">🖥️</div>
+      <div class="pf-body">
+        <h3>Proxmox Virtualization Cluster</h3>
+        <div class="pf-desc">Multi-node Proxmox VE cluster hosting VMs and LXC containers for game servers, monitoring, and self-hosted services — with a Grafana dashboard showing live metrics.</div>
+
+        <div class="spec-row" style="margin-bottom:0.5rem;">
+          <div class="spec-label">software</div>
+          <div><span class="tag">Proxmox VE</span> <span class="tag">Ubuntu Server</span> <span class="tag">Grafana</span> <span class="tag">Prometheus</span></div>
+        </div>
+        <div class="spec-row" style="margin-bottom:0.5rem;">
+          <div class="spec-label">my role</div>
+          <div style="font-size:0.82rem;">Hardware selection, Proxmox installation, VM template creation, cluster formation, and monitoring stack deployment.</div>
+        </div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Skills Demonstrated</h3>
+        <div class="pf-skills">
+          <span class="tag">Hypervisor management</span>
+          <span class="tag">Resource allocation</span>
+          <span class="tag">Storage configuration</span>
+          <span class="tag">Monitoring setup</span>
+          <span class="tag">High-availability concepts</span>
+        </div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Process Evidence</h3>
+        <div class="process-item">Single-node → cluster expansion: notes documenting the decisions around shared storage and live migration setup</div>
+        <div class="process-item">Grafana dashboard screenshots showing real-time CPU, RAM, and network throughput across all nodes</div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Final Product</h3>
+        <div class="process-item" style="border-left-color:var(--green);">Cluster running 8+ VMs and LXC containers including game servers, Pi-hole, Grafana, and backup services — 99%+ uptime over 11 months.</div>
+      </div>
+    </div>
+
+    <!-- PIECE 4 -->
+    <div class="pf-card">
+      <div class="pf-thumb">📐</div>
+      <div class="pf-body">
+        <h3>Network Topology Design Document</h3>
+        <div class="pf-desc">Professional network diagram and IP address plan for the entire home lab, documented as if it were an enterprise environment — logical layer, physical layer, and equipment inventory.</div>
+
+        <div class="spec-row" style="margin-bottom:0.5rem;">
+          <div class="spec-label">software</div>
+          <div><span class="tag">draw.io</span> <span class="tag">Excel</span> <span class="tag">Markdown</span></div>
+        </div>
+        <div class="spec-row" style="margin-bottom:0.5rem;">
+          <div class="spec-label">my role</div>
+          <div style="font-size:0.82rem;">Designed both logical and physical diagrams; documented all IP assignments, VLANs, firewall rules, and hardware specs in structured format.</div>
+        </div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Skills Demonstrated</h3>
+        <div class="pf-skills">
+          <span class="tag">Technical documentation</span>
+          <span class="tag">Network diagramming</span>
+          <span class="tag">IP address management</span>
+          <span class="tag">Equipment inventory</span>
+        </div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Process Evidence</h3>
+        <div class="process-item">Draft logical diagram with handwritten annotations identifying gaps (missing DMZ, unprotected management traffic)</div>
+        <div class="process-item">Revised finalized topology: color-coded segments, legend, and a VLAN table with subnet, gateway, and purpose for each zone</div>
+
+        <h3 style="font-size:0.78rem; margin-top:0.75rem;">Final Product</h3>
+        <div class="process-item" style="border-left-color:var(--green);">Complete documentation package: logical diagram, physical diagram, IP address spreadsheet, and a one-page network change log — all maintained in a GitHub repo.</div>
+      </div>
+    </div>
+
+  </div><!-- end pf-grid -->
+</div>
+
+
+<!-- ═══ PART 5: VIDEO PITCH ═══ -->
+<div class="section" id="part5">
+  <div class="section-heading">
+    <h2>"Why Should We Hire You?" — Video Pitch Script</h2>
+    <div class="pts-badge">10 pts</div>
+  </div>
+
+  <p class="script-note">📹 Record yourself delivering this to camera — no slides. Target: ~45 seconds at a natural pace. Make eye contact; don't read.</p>
+
+  <div class="script-box"><span class="beat">[Look into camera. Speak conversationally.]</span>
+
+"Hi — I'm Edward, and I want to be a Data Center Network Engineer.
+
+For the past two years I've been running a self-built home lab from my room.
+I set up a Proxmox virtualization cluster, designed a VLAN-segmented network,
+deployed Pi-hole for DNS security across every device, and hosted game servers
+for friends — all on hardware I chose, configured, and keep running myself.
+
+My strongest skills are Linux administration, network design, and documentation.
+The project I'm most proud of is my network topology document — I treated my
+home lab like an enterprise environment: IP plans, diagrams, change logs, all of it.
+
+Next, I'm working toward my CCNA and want to go deeper on routing protocols
+and automation with Python and Ansible.
+
+I read the error logs before things break. I write the runbooks nobody else
+wants to write. And I don't mind being on-call.
+
+Let's build something reliable."
+
+<span class="beat">[End. Approximately 45–50 seconds.]</span></div>
+</div>
+
+
+<!-- ═══ PART 6: RESUME ═══ -->
+<div class="section" id="part6">
+  <div class="section-heading green-bar">
+    <h2>Resume</h2>
+    <div class="pts-badge">10 pts</div>
+  </div>
+
+  <div class="resume-wrap">
+
+    <div class="r-name">Edward</div>
+    <div class="r-subtitle">Data Center Network Engineer (Aspiring)</div>
+    <div class="r-contact">
+      edward@email.com &nbsp;·&nbsp; (919) 555-0000 &nbsp;·&nbsp; Cary, NC &nbsp;·&nbsp; github.com/edward-netlab &nbsp;·&nbsp; edward-portfolio.com
+    </div>
+
+    <div class="r-section">
+      <div class="r-sec-label">Objective</div>
+      <p style="font-size:0.8rem; margin-bottom:0; color:#222;">Aspiring network engineer with hands-on experience in virtualization, DNS filtering, VLAN design, and Linux server administration built through two years of self-directed home lab work. Seeking an entry-level or internship position in data center operations or network infrastructure to grow toward CCNA certification and enterprise-scale networking.</p>
+    </div>
+
+    <div class="r-section">
+      <div class="r-sec-label">Education</div>
+      <div class="r-entry">
+        <div class="r-entry-top">
+          <div class="r-entry-title">High School Diploma (Expected)</div>
+          <div class="r-date">2027</div>
+        </div>
+        <div class="r-sub">McDaniel — Game &amp; Application Design Program (Honors Track)</div>
+      </div>
+    </div>
+
+    <div class="r-section">
+      <div class="r-sec-label">Technical Skills</div>
+      <div class="r-skill-tags">
+        <span class="r-tag">Linux (Ubuntu/Debian)</span>
+        <span class="r-tag">Proxmox VE</span>
+        <span class="r-tag">pfSense</span>
+        <span class="r-tag">Pi-hole</span>
+        <span class="r-tag">VLAN Design</span>
+        <span class="r-tag">Subnetting / CIDR</span>
+        <span class="r-tag">DNS &amp; DHCP</span>
+        <span class="r-tag">TCP/IP Networking</span>
+        <span class="r-tag">Wireshark</span>
+        <span class="r-tag">Bash Scripting</span>
+        <span class="r-tag">Python (beginner)</span>
+        <span class="r-tag">Git / GitHub</span>
+        <span class="r-tag">Grafana / Prometheus</span>
+        <span class="r-tag">draw.io</span>
+        <span class="r-tag">Raspberry Pi</span>
+      </div>
+    </div>
+
+    <div class="r-section">
+      <div class="r-sec-label">Projects</div>
+
+      <div class="r-entry">
+        <div class="r-entry-top">
+          <div class="r-entry-title">Home Lab Network Infrastructure</div>
+          <div class="r-date">2024 – Present</div>
+        </div>
+        <div class="r-sub">Self-Hosted Infrastructure Project</div>
+        <ul class="r-bullets">
+          <li>Designed and deployed a multi-VLAN network using pfSense, separating management, IoT, server, and trusted LAN traffic with explicit firewall rules between each zone</li>
+          <li>Built and maintained a complete IP address plan covering 4 subnets with documented gateways, DHCP scopes, and device assignments</li>
+          <li>Sustained 99%+ uptime across all self-hosted services over 11+ months of continuous operation</li>
+        </ul>
+      </div>
+
+      <div class="r-entry">
+        <div class="r-entry-top">
+          <div class="r-entry-title">Proxmox Virtualization Cluster</div>
+          <div class="r-date">2024 – Present</div>
+        </div>
+        <div class="r-sub">Self-Hosted Infrastructure Project</div>
+        <ul class="r-bullets">
+          <li>Built and administers a multi-node Proxmox VE cluster hosting 8+ VMs and LXC containers including game servers, monitoring tools, and networked services</li>
+          <li>Deployed a Grafana + Prometheus monitoring stack providing real-time visibility into CPU, RAM, disk I/O, and network throughput across all nodes</li>
+          <li>Managed storage pools, VM templates, and snapshot schedules to support rapid deployment of new services</li>
+        </ul>
+      </div>
+
+      <div class="r-entry">
+        <div class="r-entry-top">
+          <div class="r-entry-title">Pi-hole DNS Filtering + Network Security</div>
+          <div class="r-date">2024</div>
+        </div>
+        <div class="r-sub">Raspberry Pi Infrastructure Project</div>
+        <ul class="r-bullets">
+          <li>Deployed Pi-hole with Unbound recursive DNS on a Raspberry Pi, filtering network-wide DNS traffic for all connected devices via DHCP</li>
+          <li>Blocked 23% of all DNS queries (ads, trackers, and malicious domains) while maintaining a documented allowlist to prevent false positives</li>
+        </ul>
+      </div>
+
+      <div class="r-entry">
+        <div class="r-entry-top">
+          <div class="r-entry-title">Network Topology Design Document</div>
+          <div class="r-date">2025</div>
+        </div>
+        <div class="r-sub">Documentation Project</div>
+        <ul class="r-bullets">
+          <li>Created complete logical and physical network diagrams, IP address tables, VLAN documentation, and a network change log maintained in a public GitHub repository</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="r-section">
+      <div class="r-sec-label">Certifications</div>
+      <div class="r-entry">
+        <div class="r-entry-top">
+          <div class="r-entry-title">CompTIA Network+</div>
+          <div class="r-date">In Progress</div>
+        </div>
+        <div class="r-sub">Expected 2027 — self-studying with Professor Messer materials</div>
+      </div>
+      <div class="r-entry">
+        <div class="r-entry-top">
+          <div class="r-entry-title">Cisco CCNA</div>
+          <div class="r-date">Planned 2027–28</div>
+        </div>
+        <div class="r-sub">Target after Network+ completion</div>
+      </div>
+
+      <!-- ★ THE JOKE ★ -->
+      <div class="r-entry" style="margin-top:0.75rem;">
+        <div class="ks-entry">
+          <div class="ks-title">🔴 Certified AI Killswitch Engineer (CAKE) — Self-Awarded, 2026</div>
+          <div class="ks-body">
+            On-call emergency shutdown technician for hyperscale AI data centers. Core competency: locating the power strip before the robots finish writing their manifesto. Maintains 100% uptime on the OFF switch. Specialization: advanced two-handed unplugging under pressure.<br>
+            <em>In case of sentience, break glass. Then pull the cable. Then run.</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="r-section">
+      <div class="r-sec-label">Portfolio</div>
+      <p style="font-size:0.78rem; margin-bottom:0; color:#333;">github.com/edward-netlab &nbsp;·&nbsp; edward-portfolio.com</p>
+    </div>
+
+  </div><!-- end resume-wrap -->
+</div>
+
+
+<!-- ═══ REFLECTION ═══ -->
+<div class="section" id="reflection">
+  <div class="section-heading">
+    <h2>Honors Reflection</h2>
+    <div class="pts-badge">10 pts</div>
+  </div>
+
+  <div class="reflection">
+    <p>
+      The career I'm most interested in is Data Center Network Engineering — specifically, the people responsible for keeping large-scale infrastructure alive. These engineers maintain the routers, switches, fiber runs, and server racks inside facilities that power cloud services, streaming platforms, and enterprise software. It's not a visible role from the outside, but it's one of the most foundational jobs in modern technology. When a data center goes down, the whole internet notices.
+    </p>
+    <p>
+      This career interests me because I've already been doing a smaller version of it at home. For the past two years I've been building and running a home lab — Proxmox virtualization, VLAN segmentation, Pi-hole DNS security, game server hosting. Every time something breaks at 2 AM, I'm the one who has to figure out why. That's exactly the kind of ownership a real data center engineer has over production systems, just at a different scale. I already think like this; I just want to do it for infrastructure that actually matters to more than just me.
+    </p>
+    <p>
+      Skills I already have include Linux server administration, IP address planning, VLAN and DNS configuration, hypervisor management with Proxmox, firewall rule writing, basic bash scripting, and technical documentation. I'm comfortable reading logs methodically, troubleshooting systematically rather than randomly, and writing down what I find so it doesn't have to be figured out again.
+    </p>
+    <p>
+      Skills I need to develop include formal routing protocol knowledge — BGP, OSPF, and IS-IS — along with network automation using Python and Ansible. I also have no experience with enterprise-grade hardware: Cisco Catalyst switches, Juniper routers, and the structured cabling that holds a real data center together. And I need to get better at working within professional change management and ticketing systems, which are central to any production environment.
+    </p>
+    <p>
+      The portfolio piece that best represents my abilities is the Network Topology Design Document. It shows I don't just use networking tools — I think about infrastructure at a design level, document decisions formally, and treat my home lab the same way a professional would treat an enterprise network. That's the work habit an employer actually cares about.
+    </p>
+    <p>
+      Researching real job postings changed how I understood this career. The Equinix posting caught me off guard — I didn't realize how physically demanding data center work is at the infrastructure level. Lifting servers, running cable through ceiling conduit, working overnight maintenance windows. It's as much a trade as it is IT work. That makes me more interested, not less, because it means the job has real depth that you can't fake with a certification alone.
+    </p>
+    <p>
+      To become employable over the next two years, I need to earn CompTIA Network+ and then Cisco CCNA — those two credentials appeared in nearly every job posting I found. I should also build out my GitHub with real automation scripts and configuration examples, and set up a virtual routing lab in GNS3 or EVE-NG on Proxmox so I can practice BGP and OSPF without needing physical Cisco hardware.
+    </p>
+    <p>
+      My immediate next step is to register for the Network+ exam and start working through the Professor Messer study guide. The knowledge is mostly already there from the home lab work — I just need to formalize it, get it certified, and then push further into the enterprise routing territory that separates a home lab enthusiast from a working network engineer.
+    </p>
+  </div>
+</div>
+
+
+<footer>
+  Unit 1 Honors Employment Portfolio &nbsp;·&nbsp; 348.McDaniel.CD305X0Y.1.2027 &nbsp;·&nbsp; Edward &nbsp;·&nbsp; 10/1/2026 &nbsp;·&nbsp; 120 Points
+</footer>
+
+</body>
+</html>
