@@ -2,7 +2,17 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=435&lines=+______+_____++_++_++_+++_+++_+_____++_____+++++_++++_____+_+++_+_++__;%7C++____%7C++__+%5C%7C+%7C%7C+%7C%7C+%7C+%2F+%5C+%7C++__+%5C++%7C+++__+%5C+++%7C+%7C++%7C_+++_%7C+%5C+%7C+%7C+%7C%2F+%2F;%7C+%7C__++%7C+%7C++%7C+%7C+%7C%7C+%7C%7C+%7C%2F+_+%5C%7C+%7C__%29+++%7C++%7C++%7C+%7C++%7C+%7C++++%7C+%7C+%7C++%5C%7C+%7C+++%2F;%7C++__%7C+%7C+%7C++%7C+%7C+%7C%7C+%7C%7C+%2F+___+%5C++_++%2F++%7C++%7C++%7C+%7C++%7C+%7C++++%7C+%7C+%7C+++++%7C++%3C++;%7C+%7C____%7C+%7C__%7C+%7C%5C+%5C%2F++%2F+%2F+++%5C+%5C++%7C%5C+%5C+%7C++%7C__%7C+%7C++%7C+%7C____%7C+%7C_%7C+%7C%5C++%7C+++%5C;%7C______%7C_____%2F++%5C___%2F_%2F+++++%5C_%5C_%7C++%5C_%5C+%5C_____%2F++%7C______%7C___%7C_%7C+%5C_%7C_%7C%5C_%5C)](https://git.io/typing-svg)
 
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&width=435&lines=+______+_____++_++_++_+++_+++_+_____++_____+++++_++++_____+_+++_+_++__)](https://git.io/typing-svg)
 
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&multiline=true&width=435&lines=%7C++____%7C++__+%5C%7C+%7C%7C+%7C%7C+%7C+%2F+%5C+%7C++__+%5C++%7C+++__+%5C+++%7C+%7C++%7C_+++_%7C+%5C+%7C+%7C+%7C%2F+%2F)](https://git.io/typing-svg)
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&multiline=true&width=435&lines=%7C+%7C__++%7C+%7C++%7C+%7C+%7C%7C+%7C%7C+%7C%2F+_+%5C%7C+%7C__%29+++%7C++%7C++%7C+%7C++%7C+%7C++++%7C+%7C+%7C++%5C%7C+%7C+++%2F)](https://git.io/typing-svg)
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&multiline=true&width=435&lines=%7C++__%7C+%7C+%7C++%7C+%7C+%7C%7C+%7C%7C+%2F+___+%5C++_++%2F++%7C++%7C++%7C+%7C++%7C+%7C++++%7C+%7C+%7C+++++%7C++%3C++)](https://git.io/typing-svg)
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&multiline=true&width=435&lines=%7C+%7C____%7C+%7C__%7C+%7C%5C+%5C%2F++%2F+%2F+++%5C+%5C++%7C%5C+%5C+%7C++%7C__%7C+%7C++%7C+%7C____%7C+%7C_%7C+%7C%5C++%7C+++%5C)](https://git.io/typing-svg)
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&multiline=true&width=435&lines=%7C______%7C_____%2F++%5C___%2F_%2F+++++%5C_%5C_%7C++%5C_%5C+%5C_____%2F++%7C______%7C___%7C_%7C+%5C_%7C_%7C%5C_%5C)](https://git.io/typing-svg)
 ```
  ______ _____  _  _  _   _   _ _____  _____     _    _____ _   _ _  __
 |  ____|  __ \| || || | / \ |  __ \  |   __ \   | |  |_   _| \ | | |/ /
