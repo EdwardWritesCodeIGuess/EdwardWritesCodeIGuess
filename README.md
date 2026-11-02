@@ -1,3 +1,6 @@
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&multiline=true&width=435&lines=Hi+There!+Welcome+to+my+README.md!+)](https://git.io/typing-svg)
+
+
 
 ```
  ______ _____  _  _  _   _   _ _____  _____     _    _____ _   _ _  __
